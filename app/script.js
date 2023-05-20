@@ -1,5 +1,5 @@
 const body = document.querySelector('body');
-let selectedColor = 'grid-color';
+let selectedColor = 'black';
 const root = document.querySelector(':root');
 const rootStyles = getComputedStyle(root);
 
@@ -34,11 +34,23 @@ x100button.addEventListener('click', () => createGrid(100));
 
 
 // change color of grid area by adding new class
+// function setColor(e) {
+//   let target = e.target
+//   if (target.nodeName == 'DIV') {
+//     if (selectedColor) {
+//       target.classList.add(selectedColor)
+//     }
+//     else {
+//       setSpecial(target, specialClass);
+//     }
+//   }
+// }
+
 function setColor(e) {
   let target = e.target
   if (target.nodeName == 'DIV') {
     if (selectedColor) {
-      target.classList.add(selectedColor)
+      target.style.backgroundColor = selectedColor;
     }
     else {
       setSpecial(target, specialClass);
