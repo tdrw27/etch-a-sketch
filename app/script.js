@@ -1,7 +1,8 @@
 const body = document.querySelector('body');
-let selectedColor = 'black';
 const root = document.querySelector(':root');
 const rootStyles = getComputedStyle(root);
+let selectedColor = 'black';
+let specialEffect = false;
 
 // Buttons for changing grid size
 const buttonContainer = document.createElement('div');
@@ -32,27 +33,43 @@ x32button.addEventListener('click', () => createGrid(32));
 x64button.addEventListener('click', () => createGrid(64));
 x100button.addEventListener('click', () => createGrid(100));
 
-
+// Set color of grid-area and add special effect if selected
 function setColor(e) {
   let target = e.target
   if (target.nodeName == 'DIV') {
-    if (selectedColor) {
+    if (selectedColor && selectedColor != 'random') {
       target.style.backgroundColor = selectedColor;
       target.classList.add('set');
     }
-    else {
-      setSpecial(target, specialClass);
+    else if (selectedColor == 'random') {
+      if (target.classList.contains('set')) {
+        let currentColor = getComputedStyle(target).backgroundColor;
+        console.log(currentColor);
+        const rgbRegex = /\d+/g;
+        let colors = [...currentColor.matchAll(rgbRegex)];
+        let newRed = Number(colors[0]) - 25;
+        let newGreen = Number(colors[1]) - 25;
+        let newBlue = Number(colors[2]) - 25;
+        target.style.backgroundColor = `rgb(${newRed},${newGreen},${newBlue})`;
+        console.log(currentColor);
+      }
+      else {
+        let random255 = () =>  Math.round(Math.random() * 256);
+        let randomRed = random255();
+        let randomGreen = random255();
+        let randomBlue = random255();
+        let randomRGB = `rgb(${randomRed},${randomGreen},${randomBlue})`;
+        target.style.backgroundColor = randomRGB;
+        target.classList.add('set');
+      }
     }
+    specialEffect =! false ? target.classList.toggle(specialEffect) : specialEffect = false;
   }
 }
 
-// // change color of grid area to special selection
-// function setSpecial(target, specialClass) {
-//   //random rgb
-//   if
-// }
 
 
+// Create grid of size[16,32,64,100];
 function createGrid(size) {
   const oldContainer = document.querySelector('section')
   const container = document.createElement('section');
@@ -64,9 +81,8 @@ function createGrid(size) {
   // clear any existing grids
   if (body.contains(oldContainer)) {
     body.removeChild(oldContainer);
-    }
+  }
 
-  // create initial 16 x 16 divs
   body.appendChild(container);
 
   let grid = size * size;
@@ -117,10 +133,38 @@ backgroundColorPicker.setAttribute('type', 'color');
 
 backgroundInputSetion.appendChild(backgroundInputLabel);
 backgroundInputSetion.appendChild(backgroundColorPicker);
+// Special Section
+const specialInputSection = document.createElement('div');
+specialInputSection.classList.add('inputSection');
+
+const specialInputLabel = document.createElement('label');
+specialInputLabel.innerText = "Special Effects: ";
+
+const specialInputPicker = document.createElement('select');
+// first option blank
+const specialOptions = ['','Random', 'Rainbow-Line', 'Rainbow-Reveal', 'Redraw', 'Pulse'];
+specialOptions.forEach(opt => {
+  // added for false value on empty option
+  if (opt == '') {
+    const option = document.createElement('option');
+    option.setAttribute('value', false);
+    option.innerText = opt;
+    specialInputPicker.appendChild(option);
+  }
+  else {
+    const option = document.createElement('option');
+    option.setAttribute('value', opt.toLowerCase());
+    option.innerText = opt;
+    specialInputPicker.appendChild(option);
+  }
+})
+specialInputSection.appendChild(specialInputLabel);
+specialInputSection.appendChild(specialInputPicker);
 
 // Appending Sections
 inputContainer.appendChild(colorInputSection);
 inputContainer.appendChild(backgroundInputSetion);
+inputContainer.appendChild(specialInputSection);
 
 // Listeners for customization
 colorInputSection.addEventListener('input', e => {
@@ -131,6 +175,12 @@ colorInputSection.addEventListener('input', e => {
 backgroundInputSetion.addEventListener('input', e => {
   let target = e.target
   root.style.setProperty('--background-color', target.value);
+})
+
+specialInputSection.addEventListener('change', e => {
+  let target = e.target
+
+  target.value == 'random' ? selectedColor = 'random' : specialEffect = target.value;
 })
 
 

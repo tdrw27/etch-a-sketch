@@ -7,6 +7,8 @@
 :root {
   --color: black;
   --background-color: lightgray;
+  --grid-height: null;
+  --grid-width: null;
 }
 
 html {
@@ -101,6 +103,12 @@ input[type=color] {
   border: none;
 }
 
+select {
+  background-color: rgba(0,0,0,0.6);
+  border: none;
+  color: #fff;
+}
+
 .inputSection {
   display: flex;
   justify-content: center;
@@ -109,5 +117,23 @@ input[type=color] {
   color: #fff;
   border-bottom: 1px solid #fff;
   padding: 8px;
+}
 
+/* Special Effects */
+@keyframes moveGradient {
+
+}
+
+@keyframes redraw {
+  from {
+    background: initial;
+  }
+
+  to {
+    background: var(--background-color);
+  }
+}
+
+.redraw {
+  animation: redraw 1s ease-in-out infinite;
 }
