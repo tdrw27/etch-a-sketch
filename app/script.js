@@ -23,8 +23,11 @@ x64button.innerText = "64 x 64";
 const x100button = document.createElement('button');
 x100button.innerText = "100 x 100";
 
+const customButton = document.createElement('button');
+customButton.innerText = "Select size";
 
-const buttonArr = [x16button, x32button, x64button, x100button];
+
+const buttonArr = [x16button, x32button, x64button, x100button, customButton];
 buttonArr.forEach(button => buttonContainer.appendChild(button))
 body.appendChild(buttonContainer);
 
@@ -33,6 +36,37 @@ x16button.addEventListener('click', () => createGrid(16));
 x32button.addEventListener('click', () => createGrid(32));
 x64button.addEventListener('click', () => createGrid(64));
 x100button.addEventListener('click', () => createGrid(100));
+customButton.addEventListener('click', customGrid);
+
+function customGrid(size) {
+  size = Number(prompt('Select a size for the drawing area (max: 100)', 50));
+  root.style.setProperty('--grid-area-size', size);
+  currentGrid = size;
+  const oldContainer = document.querySelector('section')
+  const container = document.createElement('section');
+  container.classList.add('grid-container');
+
+  // add event listener for mouseover to change grid-area color
+  container.addEventListener('mouseover', setColor)
+
+  // clear any existing grids
+  if (body.contains(oldContainer)) {
+    body.removeChild(oldContainer);
+  }
+
+  body.appendChild(container);
+
+  let grid = size * size;
+
+
+
+  for (let i = 1; i <= grid; i++) {
+    const div = document.createElement('div');
+    div.classList.add(`grid-area-custom`)
+
+    container.appendChild(div);
+  }
+}
 
 
 // Create grid of size[16,32,64,100];

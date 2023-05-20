@@ -8,8 +8,7 @@
   --color: #000000;
   --background-color: #AAAAAA;
   --special-color: null;
-  --grid-area-height: null;
-  --grid-area-width: null;
+  --grid-area-size: null;
 }
 
 html {
@@ -65,6 +64,11 @@ body {
   background: var(--background-color);
 }
 
+.grid-area-custom {
+  width: calc(100% / var(--grid-area-size));
+  height: calc(100% / var(--grid-area-size));
+  background: var(--background-color);
+}
 
 .grid-color {
   background: var(--color);
