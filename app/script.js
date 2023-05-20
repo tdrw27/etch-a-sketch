@@ -40,6 +40,9 @@ customButton.addEventListener('click', customGrid);
 
 function customGrid(size) {
   size = Number(prompt('Select a size for the drawing area (max: 100)', 50));
+  if (size > 100 || size <= 0) {
+    return alert('Please choose a correct size');
+  }
   root.style.setProperty('--grid-area-size', size);
   currentGrid = size;
   const oldContainer = document.querySelector('section')
@@ -172,26 +175,20 @@ function setRainbowLine(target, color) {
   g = Number(colors[1]);
   b = Number(colors[2]);
 
-  console.log(color, r, g, b, selectedColor)
-
   if (r == 255 && g != 255 && b != 255) {
-    console.log('green-shift')
     g += 5;
     b = 0;
 
   }
   else if (g == 255 && b != 255) {
-    console.log('red out', 'blue-shift')
     r -= 5;
     b += 5;
   }
   else if (b == 255 && r != 255) {
-    console.log('green out', 'red-shift')
     r += 5;
     g -= 5;
   }
   else if (r == 255 && b != 0) {
-    console.log('blue-out', 'reset')
     b -= 5;
   }
   else {
@@ -287,9 +284,9 @@ backgroundInputSetion.addEventListener('input', e => {
   root.style.setProperty('--background-color', target.value);
 })
 
-specialInputSection.addEventListener('change', e => {
+specialInputSection.addEventListener('input', e => {
   // clear grid
-  createGrid(currentGrid);
+  customGrid(currentGrid);
 
   let target = e.target
   if (target.value == 'random') {
@@ -299,7 +296,6 @@ specialInputSection.addEventListener('change', e => {
   else {
     specialEffect = target.value;
   }
-  // target.value == 'random' ? selectedColor = 'random' : specialEffect = target.value;
 })
 
 
