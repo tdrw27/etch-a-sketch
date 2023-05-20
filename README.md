@@ -2,7 +2,7 @@
 
 ## Instructions
 
-- Click the buttons along the top to change the size of the 'pixels' in the drawing area.
+- Click the buttons along the top to change the size of the drawing area.
 
 - To reset the drawing area, use a new size or click the same size you are currently using.
 
