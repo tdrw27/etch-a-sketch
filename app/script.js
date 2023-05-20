@@ -62,7 +62,7 @@ function createGrid(size) {
     // div.setAttribute('id', `grid${i}`)
     container.appendChild(div);
   }
-  selectedColor = "#000000"
+
 }
 
 
@@ -71,34 +71,36 @@ function setColor(e) {
   let target = e.target
   // root.style.setProperty('--color', selectedColor);
 
-  if (specialEffect != "false") {
-    setSpecial(e, specialEffect);
-  }
-
-  if (selectedColor && selectedColor != 'random') {
-    target.style.background = selectedColor;
-    target.classList.add('set');
-  }
-  // random color
-  else if (selectedColor == 'random') {
-    if (target.classList.contains('set')) {
-      let currentColor = getComputedStyle(target).background;
-      // extract number values
-      const rgbRegex = /\d+/g;
-      let colors = [...currentColor.matchAll(rgbRegex)];
-      let newRed = Number(colors[0]) - 25;
-      let newGreen = Number(colors[1]) - 25;
-      let newBlue = Number(colors[2]) - 25;
-      target.style.background = `rgb(${newRed},${newGreen},${newBlue})`;
+  if (target.nodeName == 'DIV') {
+    if (specialEffect != "false") {
+      setSpecial(e, specialEffect);
     }
-    else {
-      let random255 = () =>  Math.round(Math.random() * 256);
-      let randomRed = random255();
-      let randomGreen = random255();
-      let randomBlue = random255();
-      let randomRGB = `rgb(${randomRed},${randomGreen},${randomBlue})`;
-      target.style.background = randomRGB;
+
+    if (selectedColor && selectedColor != 'random') {
+      target.style.background = selectedColor;
       target.classList.add('set');
+    }
+    // random color
+    else if (selectedColor == 'random') {
+      if (target.classList.contains('set')) {
+        let currentColor = getComputedStyle(target).background;
+        // extract number values
+        const rgbRegex = /\d+/g;
+        let colors = [...currentColor.matchAll(rgbRegex)];
+        let newRed = Number(colors[0]) - 25;
+        let newGreen = Number(colors[1]) - 25;
+        let newBlue = Number(colors[2]) - 25;
+        target.style.background = `rgb(${newRed},${newGreen},${newBlue})`;
+      }
+      else {
+        let random255 = () => Math.round(Math.random() * 256);
+        let randomRed = random255();
+        let randomGreen = random255();
+        let randomBlue = random255();
+        let randomRGB = `rgb(${randomRed},${randomGreen},${randomBlue})`;
+        target.style.background = randomRGB;
+        target.classList.add('set');
+      }
     }
   }
 }
@@ -119,6 +121,7 @@ function setSpecial(e, effect) {
 
     if (effect == "rainbow-reveal" || effect == "pulse") {
       selectedColor = 'rgba(0,0,0,0)';
+      root.style.setProperty('--background-color', '#000000');
     }
 
     if (effect == "rainbow-line") {
@@ -137,16 +140,25 @@ function setRainbowLine(target, color) {
 
   console.log(color, r, g, b, selectedColor)
 
-  if (r == 255 && g != 255) {
+  if (r == 255 && g != 255 && b != 255) {
+    console.log('green-shift')
     g += 5;
+    b = 0;
+
   }
   else if (g == 255 && b != 255) {
+    console.log('red out', 'blue-shift')
     r -= 5;
     b += 5;
   }
   else if (b == 255 && r != 255) {
+    console.log('green out', 'red-shift')
     r += 5;
     g -= 5;
+  }
+  else if (r == 255 && b != 0) {
+    console.log('blue-out', 'reset')
+    b -= 5;
   }
   else {
     r = 255;
@@ -246,8 +258,14 @@ specialInputSection.addEventListener('change', e => {
   createGrid(currentGrid);
 
   let target = e.target
-
-  target.value == 'random' ? selectedColor = 'random' : specialEffect = target.value;
+  if (target.value == 'random') {
+    selectedColor = 'random';
+    specialEffect = 'false';
+  }
+  else {
+    specialEffect = target.value;
+  }
+  // target.value == 'random' ? selectedColor = 'random' : specialEffect = target.value;
 })
 
 

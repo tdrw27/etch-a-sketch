@@ -8,8 +8,8 @@
   --color: #000000;
   --background-color: #AAAAAA;
   --special-color: null;
-  --grid-height: null;
-  --grid-width: null;
+  --grid-area-height: null;
+  --grid-area-width: null;
 }
 
 html {
@@ -37,6 +37,8 @@ body {
   justify-content: center;
   align-items: center;
   order: 2;
+  border: 3px inset #fffffff0;
+  border-radius: 5px;
 }
 
 .grid-areax16 {
@@ -62,6 +64,7 @@ body {
   height: calc(100% / 100);
   background: var(--background-color);
 }
+
 
 .grid-color {
   background: var(--color);
@@ -124,15 +127,15 @@ select {
 /* Special Effects */
 @keyframes moveGradient {
   0% {
-    position: top;
+    background-position: top;
   }
 
   50% {
-    position: bottom;
+    background-position: bottom;
   }
 
   100% {
-    position: top;
+    background-position: top;
   }
 }
 
@@ -165,4 +168,10 @@ select {
 
 .rainbow-reveal {
   background: rgba(0,0,0,0);
+}
+
+.grid-container:has(.pulse) {
+  background: linear-gradient(red, orange, yellow, green, blue, indigo, violet);
+  background-size: 100% 1000%;
+  animation: moveGradient 20s ease infinite;
 }
