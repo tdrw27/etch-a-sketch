@@ -125,15 +125,23 @@ select {
 }
 
 @keyframes redraw {
-  from {
-    background: initial;
+  0% {
+    background: initial
   }
 
-  to {
+  50% {
+    background: initial
+  }
+
+  75% {
+    background: initial
+  }
+
+  100% {
     background: var(--background-color);
   }
 }
 
 .redraw {
-  animation: redraw 1s ease-in-out infinite;
+  animation: redraw 3s ease infinite;
 }

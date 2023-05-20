@@ -37,21 +37,26 @@ x100button.addEventListener('click', () => createGrid(100));
 function setColor(e) {
   let target = e.target
   if (target.nodeName == 'DIV') {
+    if (specialEffect != false) {
+      target.classList.add(specialEffect)
+    }
+    else {
+
+    }
     if (selectedColor && selectedColor != 'random') {
-      target.style.backgroundColor = selectedColor;
+      target.style.background = selectedColor;
       target.classList.add('set');
     }
     else if (selectedColor == 'random') {
       if (target.classList.contains('set')) {
-        let currentColor = getComputedStyle(target).backgroundColor;
-        console.log(currentColor);
+        let currentColor = getComputedStyle(target).background;
+        // extract number values
         const rgbRegex = /\d+/g;
         let colors = [...currentColor.matchAll(rgbRegex)];
         let newRed = Number(colors[0]) - 25;
         let newGreen = Number(colors[1]) - 25;
         let newBlue = Number(colors[2]) - 25;
-        target.style.backgroundColor = `rgb(${newRed},${newGreen},${newBlue})`;
-        console.log(currentColor);
+        target.style.background = `rgb(${newRed},${newGreen},${newBlue})`;
       }
       else {
         let random255 = () =>  Math.round(Math.random() * 256);
@@ -59,11 +64,10 @@ function setColor(e) {
         let randomGreen = random255();
         let randomBlue = random255();
         let randomRGB = `rgb(${randomRed},${randomGreen},${randomBlue})`;
-        target.style.backgroundColor = randomRGB;
+        target.style.background = randomRGB;
         target.classList.add('set');
       }
     }
-    specialEffect =! false ? target.classList.toggle(specialEffect) : specialEffect = false;
   }
 }
 
@@ -115,9 +119,11 @@ colorInputSection.classList.add('inputSection');
 
 const colorInputLabel = document.createElement('label')
 colorInputLabel.innerText = "Line Color: ";
+colorInputLabel.setAttribute('for', 'color');
 
 const colorPicker = document.createElement('input');
 colorPicker.setAttribute('type', 'color');
+colorPicker.setAttribute('id', 'color');
 
 colorInputSection.appendChild(colorInputLabel);
 colorInputSection.appendChild(colorPicker);
@@ -127,9 +133,11 @@ backgroundInputSetion.classList.add('inputSection');
 
 const backgroundInputLabel = document.createElement('label');
 backgroundInputLabel.innerText = "Background Color: ";
+backgroundInputLabel.setAttribute('for', 'bg-color')
 
 const backgroundColorPicker = document.createElement('input');
 backgroundColorPicker.setAttribute('type', 'color');
+backgroundColorPicker.setAttribute('id', 'bg-color');
 
 backgroundInputSetion.appendChild(backgroundInputLabel);
 backgroundInputSetion.appendChild(backgroundColorPicker);
@@ -139,8 +147,10 @@ specialInputSection.classList.add('inputSection');
 
 const specialInputLabel = document.createElement('label');
 specialInputLabel.innerText = "Special Effects: ";
+specialInputLabel.setAttribute('for', 'special');
 
 const specialInputPicker = document.createElement('select');
+specialInputPicker.setAttribute('id','special');
 // first option blank
 const specialOptions = ['','Random', 'Rainbow-Line', 'Rainbow-Reveal', 'Redraw', 'Pulse'];
 specialOptions.forEach(opt => {
