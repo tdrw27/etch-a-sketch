@@ -38,29 +38,29 @@ body {
 .grid-areax16 {
   width: calc(100% / 16);
   height: calc(100% / 16);
-  background-color: var(--background-color);
+  background: var(--background-color);
 }
 
 .grid-areax32 {
   width: calc(100% / 32);
   height: calc(100% / 32);
-  background-color: var(--background-color);
+  background: var(--background-color);
 }
 
 .grid-areax64 {
   width: calc(100% / 64);
   height: calc(100% / 64);
-  background-color: var(--background-color);
+  background: var(--background-color);
 }
 
 .grid-areax100 {
   width: calc(100% / 100);
   height: calc(100% / 100);
-  background-color: var(--background-color);
+  background: var(--background-color);
 }
 
 .grid-color {
-  background-color: var(--color);
+  background: var(--color);
 }
 
 button {
@@ -94,4 +94,20 @@ button:active {
 
 .inputContainer {
   order: 3;
+}
+
+input[type=color] {
+  background-color: rgba(0,0,0,0);
+  border: none;
+}
+
+.inputSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  border-bottom: 1px solid #fff;
+  padding: 8px;
+
 }

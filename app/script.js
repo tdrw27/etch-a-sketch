@@ -33,24 +33,12 @@ x64button.addEventListener('click', () => createGrid(64));
 x100button.addEventListener('click', () => createGrid(100));
 
 
-// change color of grid area by adding new class
-// function setColor(e) {
-//   let target = e.target
-//   if (target.nodeName == 'DIV') {
-//     if (selectedColor) {
-//       target.classList.add(selectedColor)
-//     }
-//     else {
-//       setSpecial(target, specialClass);
-//     }
-//   }
-// }
-
 function setColor(e) {
   let target = e.target
   if (target.nodeName == 'DIV') {
     if (selectedColor) {
       target.style.backgroundColor = selectedColor;
+      target.classList.add('set');
     }
     else {
       setSpecial(target, specialClass);
@@ -105,13 +93,48 @@ customButtons.classList.add('buttonContainer');
 const inputContainer = document.createElement('div');
 inputContainer.classList.add('inputContainer');
 body.appendChild(inputContainer);
+// Line Color Section
+const colorInputSection = document.createElement('div');
+colorInputSection.classList.add('inputSection');
 
-const inputSection = document.createElement('div');
-
-const inputLabel = document.createElement('label')
+const colorInputLabel = document.createElement('label')
+colorInputLabel.innerText = "Line Color: ";
 
 const colorPicker = document.createElement('input');
 colorPicker.setAttribute('type', 'color');
+
+colorInputSection.appendChild(colorInputLabel);
+colorInputSection.appendChild(colorPicker);
+// Background Color Section
+const backgroundInputSetion = document.createElement('div');
+backgroundInputSetion.classList.add('inputSection');
+
+const backgroundInputLabel = document.createElement('label');
+backgroundInputLabel.innerText = "Background Color: ";
+
+const backgroundColorPicker = document.createElement('input');
+backgroundColorPicker.setAttribute('type', 'color');
+
+backgroundInputSetion.appendChild(backgroundInputLabel);
+backgroundInputSetion.appendChild(backgroundColorPicker);
+
+// Appending Sections
+inputContainer.appendChild(colorInputSection);
+inputContainer.appendChild(backgroundInputSetion);
+
+// Listeners for customization
+colorInputSection.addEventListener('input', e => {
+  let target = e.target
+  selectedColor = target.value;
+})
+
+backgroundInputSetion.addEventListener('input', e => {
+  let target = e.target
+  root.style.setProperty('--background-color', target.value);
+})
+
+
+
 
 
 
