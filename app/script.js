@@ -1,6 +1,7 @@
 const body = document.querySelector('body');
 const root = document.querySelector(':root');
 const rootStyles = getComputedStyle(root);
+let currentGrid = 16;
 let selectedColor = 'black';
 let specialEffect = 'false';
 
@@ -22,7 +23,7 @@ x64button.innerText = "64 x 64";
 const x100button = document.createElement('button');
 x100button.innerText = "100 x 100";
 
-// Buttons for grid sizing
+
 const buttonArr = [x16button, x32button, x64button, x100button];
 buttonArr.forEach(button => buttonContainer.appendChild(button))
 body.appendChild(buttonContainer);
@@ -33,63 +34,10 @@ x32button.addEventListener('click', () => createGrid(32));
 x64button.addEventListener('click', () => createGrid(64));
 x100button.addEventListener('click', () => createGrid(100));
 
-// Set color of grid-area and add special effect if selected
-function setColor(e) {
-  let target = e.target
-  root.style.setProperty('--color', selectedColor);
-  if (target.nodeName == 'DIV') {
-    if (specialEffect != "false") {
-      target.style.background = null;
-      selectedColor = specialEffect;
-      target.classList.add(specialEffect)
-    }
-
-    // remove existing special effects
-    if (target.classList.length > 3) {
-      let options = specialOptions.slice(1);
-      options.forEach(option => {
-        option = option.toLowerCase();
-        if (option == specialEffect) {
-          return
-        }
-        else {
-          target.classList.remove(option);
-        }
-      })
-    }
-    if (selectedColor && selectedColor != 'random') {
-      target.style.background = selectedColor;
-      target.classList.add('set');
-    }
-    // random color
-    else if (selectedColor == 'random') {
-      if (target.classList.contains('set')) {
-        let currentColor = getComputedStyle(target).background;
-        // extract number values
-        const rgbRegex = /\d+/g;
-        let colors = [...currentColor.matchAll(rgbRegex)];
-        let newRed = Number(colors[0]) - 25;
-        let newGreen = Number(colors[1]) - 25;
-        let newBlue = Number(colors[2]) - 25;
-        target.style.background = `rgb(${newRed},${newGreen},${newBlue})`;
-      }
-      else {
-        let random255 = () =>  Math.round(Math.random() * 256);
-        let randomRed = random255();
-        let randomGreen = random255();
-        let randomBlue = random255();
-        let randomRGB = `rgb(${randomRed},${randomGreen},${randomBlue})`;
-        target.style.background = randomRGB;
-        target.classList.add('set');
-      }
-    }
-  }
-}
-
-
 
 // Create grid of size[16,32,64,100];
 function createGrid(size) {
+  currentGrid = size;
   const oldContainer = document.querySelector('section')
   const container = document.createElement('section');
   container.classList.add('grid-container');
@@ -115,6 +63,65 @@ function createGrid(size) {
     container.appendChild(div);
   }
   selectedColor = "#000000"
+}
+
+
+// Set color of grid-area and add special effect if selected
+function setColor(e) {
+  let target = e.target
+  // root.style.setProperty('--color', selectedColor);
+
+  if (specialEffect != "false") {
+    setSpecial(e, specialEffect);
+  }
+
+  if (selectedColor && selectedColor != 'random') {
+    target.style.background = selectedColor;
+    target.classList.add('set');
+  }
+  // random color
+  else if (selectedColor == 'random') {
+    if (target.classList.contains('set')) {
+      let currentColor = getComputedStyle(target).background;
+      // extract number values
+      const rgbRegex = /\d+/g;
+      let colors = [...currentColor.matchAll(rgbRegex)];
+      let newRed = Number(colors[0]) - 25;
+      let newGreen = Number(colors[1]) - 25;
+      let newBlue = Number(colors[2]) - 25;
+      target.style.background = `rgb(${newRed},${newGreen},${newBlue})`;
+    }
+    else {
+      let random255 = () =>  Math.round(Math.random() * 256);
+      let randomRed = random255();
+      let randomGreen = random255();
+      let randomBlue = random255();
+      let randomRGB = `rgb(${randomRed},${randomGreen},${randomBlue})`;
+      target.style.background = randomRGB;
+      target.classList.add('set');
+    }
+  }
+}
+
+function setSpecial(e, effect) {
+  let target = e.target;
+
+  if (target.nodeName == 'DIV') {
+    if (effect != "false") {
+      if (target.classList.contains('set')) {
+        return
+      }
+      // target.style.background = null;
+      else {
+        target.classList.add(specialEffect)
+      }
+    }
+
+    if (effect == "rainbow-reveal" || effect == "pulse") {
+      selectedColor = 'rgba(0,0,0,0)';
+    }
+
+  }
 }
 
 
@@ -206,6 +213,9 @@ backgroundInputSetion.addEventListener('input', e => {
 })
 
 specialInputSection.addEventListener('change', e => {
+  // clear grid
+  createGrid(currentGrid);
+
   let target = e.target
 
   target.value == 'random' ? selectedColor = 'random' : specialEffect = target.value;

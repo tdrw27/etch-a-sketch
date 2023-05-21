@@ -123,26 +123,30 @@ select {
 
 /* Special Effects */
 @keyframes moveGradient {
-  from {
-
+  0% {
+    position: top;
   }
 
-  to {
+  50% {
+    position: bottom;
+  }
 
+  100% {
+    position: top;
   }
 }
 
 @keyframes redraw {
   0% {
-    background: var(--color);
+
   }
 
   50% {
-    background: var(--color);
+
   }
 
   75% {
-    background: var(--color);
+
   }
 
   100% {
