@@ -113,7 +113,7 @@ function setSpecial(e, effect) {
       }
       // target.style.background = null;
       else {
-        target.classList.add(specialEffect)
+        target.classList.add(effect)
       }
     }
 
@@ -121,12 +121,41 @@ function setSpecial(e, effect) {
       selectedColor = 'rgba(0,0,0,0)';
     }
 
+    if (effect == "rainbow-line") {
+      setRainbowLine(target, selectedColor);
+    }
   }
 }
 
+function setRainbowLine(target, color) {
+  const rgbRegex = /\d+/g;
+  let colors = [...color.matchAll(rgbRegex)];
+  let r, g, b;
+  r = Number(colors[0]);
+  g = Number(colors[1]);
+  b = Number(colors[2]);
 
-// Code to change background of grid
-// root.style.setProperty('--background-color', 'blue')
+  console.log(color, r, g, b, selectedColor)
+
+  if (r == 255 && g != 255) {
+    g += 5;
+  }
+  else if (g == 255 && b != 255) {
+    r -= 5;
+    b += 5;
+  }
+  else if (b == 255 && r != 255) {
+    r += 5;
+    g -= 5;
+  }
+  else {
+    r = 255;
+    g = 0;
+    b = 0;
+  }
+  selectedColor = `rgb(${r},${g},${b})`;
+  target.style.background = selectedColor;
+}
 
 
 // Buttons for customization
