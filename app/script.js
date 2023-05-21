@@ -2,7 +2,7 @@ const body = document.querySelector('body');
 const root = document.querySelector(':root');
 const rootStyles = getComputedStyle(root);
 let selectedColor = 'black';
-let specialEffect = false;
+let specialEffect = 'false';
 
 // Buttons for changing grid size
 const buttonContainer = document.createElement('div');
@@ -36,17 +36,32 @@ x100button.addEventListener('click', () => createGrid(100));
 // Set color of grid-area and add special effect if selected
 function setColor(e) {
   let target = e.target
+  root.style.setProperty('--color', selectedColor);
   if (target.nodeName == 'DIV') {
-    if (specialEffect != false) {
+    if (specialEffect != "false") {
+      target.style.background = null;
+      selectedColor = specialEffect;
       target.classList.add(specialEffect)
     }
-    else {
 
+    // remove existing special effects
+    if (target.classList.length > 3) {
+      let options = specialOptions.slice(1);
+      options.forEach(option => {
+        option = option.toLowerCase();
+        if (option == specialEffect) {
+          return
+        }
+        else {
+          target.classList.remove(option);
+        }
+      })
     }
     if (selectedColor && selectedColor != 'random') {
       target.style.background = selectedColor;
       target.classList.add('set');
     }
+    // random color
     else if (selectedColor == 'random') {
       if (target.classList.contains('set')) {
         let currentColor = getComputedStyle(target).background;
@@ -99,6 +114,7 @@ function createGrid(size) {
     // div.setAttribute('id', `grid${i}`)
     container.appendChild(div);
   }
+  selectedColor = "#000000"
 }
 
 
@@ -124,6 +140,7 @@ colorInputLabel.setAttribute('for', 'color');
 const colorPicker = document.createElement('input');
 colorPicker.setAttribute('type', 'color');
 colorPicker.setAttribute('id', 'color');
+colorPicker.setAttribute('value', '#000000');
 
 colorInputSection.appendChild(colorInputLabel);
 colorInputSection.appendChild(colorPicker);
@@ -138,6 +155,7 @@ backgroundInputLabel.setAttribute('for', 'bg-color')
 const backgroundColorPicker = document.createElement('input');
 backgroundColorPicker.setAttribute('type', 'color');
 backgroundColorPicker.setAttribute('id', 'bg-color');
+backgroundColorPicker.setAttribute('value', '#AAAAAA')
 
 backgroundInputSetion.appendChild(backgroundInputLabel);
 backgroundInputSetion.appendChild(backgroundColorPicker);
@@ -157,7 +175,7 @@ specialOptions.forEach(opt => {
   // added for false value on empty option
   if (opt == '') {
     const option = document.createElement('option');
-    option.setAttribute('value', false);
+    option.setAttribute('value', 'false');
     option.innerText = opt;
     specialInputPicker.appendChild(option);
   }
