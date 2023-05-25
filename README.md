@@ -1,6 +1,13 @@
 # Etch A Sketch
 
-## Instructions
+This is my etch-a-sketch project submission for The Odin Project. It relies heavily on css animations, so github deployments were not being friendly towards the app. Please run locally to experience all the special effects with the correct performance.
+
+## To use
+
+- Clone the repo to a folder on your computer
+- Open the index in your browser
+
+### Instructions
 
 - Click the buttons along the top to change the size of the drawing area.
 
