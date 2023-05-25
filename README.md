@@ -1,8 +1,12 @@
 # Etch A Sketch
 
-This is my etch-a-sketch project submission for The Odin Project. It relies heavily on css animations, so github deployments were not being friendly towards the app. Please run locally to experience all the special effects with the correct performance.
+This is my etch-a-sketch project submission for The Odin Project. It relies heavily on css animations, so browser addons do not play well with the web app, especially dark mode addons! Please disable browser addons to experience the app how it was intended.
 
 ## To use
+
+- Open the github deployment
+
+OR
 
 - Clone the repo to a folder on your computer
 - Open the index in your browser
