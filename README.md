@@ -4,7 +4,8 @@ This is my rendition of an Etch A Sketch. It relies heavily on css animations, s
 
 ## To use
 
-- Open the github deployment
+- [Open the github deployment](https://tdrw27.github.io/etch-a-sketch/)
+
 
 OR
 
