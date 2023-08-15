@@ -1,6 +1,6 @@
 # Etch A Sketch
 
-This is my etch-a-sketch project submission for The Odin Project. It relies heavily on css animations, so browser addons do not play well with the web app, especially dark mode addons! Please disable browser addons to experience the app how it was intended.
+This is my rendition of an Etch A Sketch. It relies heavily on css animations, so browser addons do not play well with the web app, especially dark mode addons! Please disable browser addons to experience the app how it was intended.
 
 ## To use
 
